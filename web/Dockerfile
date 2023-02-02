@@ -1,5 +1,5 @@
 # pull official base image
-FROM node:19-alpine3.16 AS FrontEnd
+FROM node:19-alpine3.16 
 
 WORKDIR /app
 # install app dependencies
@@ -11,16 +11,7 @@ RUN yarn install
 
 COPY . ./
 
-RUN yarn run build
-
-#Stage 2
-
-FROM nginx:1.19.0
-
-WORKDIR /usr/share/nginx/html
-# Remove default nginx static resources
-RUN rm -rf ./*
-# Copies static resources from builder stage
-COPY --from=FrontEnd /app/build .
+# Expose port
+EXPOSE 3000
 # Containers run nginx with global directives and daemon off
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+CMD ["yarn", "start"]

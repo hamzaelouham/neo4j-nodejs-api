@@ -1,14 +1,6 @@
 import React from "react";
 
-export default function Search() {
-  const [search, setSearch] = React.useState("");
-  const SearchHandler = async (e) => {
-    e.preventDefault();
-    try {
-      const result = await (await fetch("url")).json();
-    } catch (error) {}
-  };
-
+export default function Search({ SearchHandler, search, setSearch }) {
   return (
     <div className="max-w-sm mx-auto py-16 mb-16">
       <div className="mb-5">

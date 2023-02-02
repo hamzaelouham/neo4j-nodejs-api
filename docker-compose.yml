@@ -1,10 +1,22 @@
-version: '2'
+version: '3.8'
 services:
-  api:
+  backend:
     build: .
+    restart: unless-stopped
     ports:
       - "5000:5000"
-    depends_on:
-      - neo4j
     environment:
-      DATABASE_URL:
+      DATABASE_URL: bolt://localhost:7687 
+    networks:
+      - appNetwork
+
+  frontend:
+    depends_on: 
+     - backend
+    build:
+     context: ./web
+    networks:
+      - appNetwork
+networks:
+  appNetwork:
+    driver: bridge
